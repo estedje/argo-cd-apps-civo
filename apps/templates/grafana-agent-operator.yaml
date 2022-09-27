@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana-agent-operator
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: grafana
+  project: default
+  source:
+    chart: grafana-agent-operator
+    helm:
+      values: 
+    repoURL: https://grafana.github.io/helm-charts
+    targetRevision: 0.2.4
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true     
+    automated:
+      prune: true
+      selfHeal: true

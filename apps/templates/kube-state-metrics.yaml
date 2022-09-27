@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-state-metrics
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  project: default
+  source:
+    chart: kube-state-metrics
+    helm:
+      values: |
+        prometheus:
+          monitor:
+            enabled: true
+            additionalLabels:
+              instance: primary
+            namespace: "grafana"
+            interval: "60s"
+            scrapeTimeout: "10s"
+            honorLabels: true
+            relabelings:
+            - sourceLabels:
+              - __metrics_path__
+              targetLabel: metrics_path
+            - action: replace
+              targetLabel: job
+              replacement: integrations/kubernetes/kube-state-metrics            
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 4.20.0
+  syncPolicy:  
+    automated:
+      prune: true
+      selfHeal: true
