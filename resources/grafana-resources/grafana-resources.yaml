@@ -14,7 +14,7 @@ spec:
       matchLabels:
         agent: grafana-agent-metrics
     externalLabels:
-      cluster: azure-cloud
+      cluster: civo-cloud
   logs:
     instanceSelector:
       matchLabels:
