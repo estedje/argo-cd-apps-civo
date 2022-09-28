@@ -12,7 +12,7 @@ spec:
   project: default
   source:
     path: resources/grafana-resources/
-    repoURL: https://github.com/estedje/argo-cd-apps.git
+    repoURL: https://github.com/estedje/argo-cd-apps-civo.git
     targetRevision: HEAD
   syncPolicy:
     automated:
